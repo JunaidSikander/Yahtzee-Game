@@ -1,9 +1,10 @@
-import React, {Fragment} from "react";
+import React from "react";
+import Game from "./components/Game";
 
 export default function App() {
     return (
-        <Fragment>
-            <h1>Yahtzee Game</h1>
-        </Fragment>
+        <div className='container'>
+            <Game/>
+        </div>
     );
 }
