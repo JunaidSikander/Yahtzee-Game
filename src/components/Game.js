@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Dice from "./Dice";
 import ScoreTable from "./ScoreTable";
 
@@ -11,6 +11,7 @@ export default function Game() {
     const [dice, setDice] = useState(Array.from({length: NUM_DICE}));
     const [locked, setLocked] = useState(Array(NUM_DICE).fill(false));
     const [rollsLeft, setRolls] = useState(NUM_ROLLS);
+    const [rolling, setRolling] = useState(false);
     const [scores, setScore] = useState({
         ones: undefined,
         twos: undefined,
@@ -28,17 +29,22 @@ export default function Game() {
     });
 
     //Methods
+    const animateRoll = () => setRolling(() => true, setTimeout(roll, 1000));
+
+    useEffect(() => animateRoll());
+
     const roll = (event) => {
         // roll dice whose indexes are in reroll
 
         setDice((prevState) => prevState.map((d, i) => locked[i] ? d : Math.ceil(Math.random() * 6)));
         setLocked((prevState) => rollsLeft > 1 ? prevState : Array(NUM_DICE).fill(true));
         setRolls((prevState) => prevState - 1);
+        setRolling(false);
     };
 
     const toggleLocked = (idx) => {
         // toggle whether idx is in locked or not
-        if (rollsLeft)
+        if (rollsLeft & !rolling)
             setLocked((prevState) => {
                 return [
                     ...prevState.slice(0, idx),
@@ -71,12 +77,13 @@ export default function Game() {
                         dice={dice}
                         locked={locked}
                         handleClick={toggleLocked}
+                        rolling={rolling}
                     />
                     <div className='Game-button-wrapper'>
                         <button
                             className='Game-reroll'
-                            disabled={locked.every(x => x) || rollsLeft === 0}
-                            onClick={roll}
+                            disabled={locked.every(x => x) || rollsLeft === 0 || rolling}
+                            onClick={animateRoll}
                         >
                             {rollsLeft} Rerolls Left
                         </button>

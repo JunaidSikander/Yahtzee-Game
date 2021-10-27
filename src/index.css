@@ -161,6 +161,10 @@ h2 {
     cursor: not-allowed;
 }
 
+.Die-rolling {
+    animation: spin 1s ease-out;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -258,4 +262,13 @@ h2 {
 .RuleRow-score {
     width: 50%;
     text-align: right;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
