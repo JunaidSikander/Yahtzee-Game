@@ -27,9 +27,6 @@ export default function Game() {
         chance: undefined
     });
 
-
-    console.log('LOCKED', locked)
-
     //Methods
     const roll = (event) => {
         // roll dice whose indexes are in reroll
@@ -85,7 +82,7 @@ export default function Game() {
                     </div>
                 </section>
             </header>
-            <ScoreTable/>
+            <ScoreTable doScore={doScore} scores={scores}/>
         </div>
     )
 }
