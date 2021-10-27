@@ -38,13 +38,14 @@ export default function Game() {
 
     const toggleLocked = (idx) => {
         // toggle whether idx is in locked or not
-        setLocked((prevState) => {
-            return [
-                ...prevState.slice(0, idx),
-                !prevState[idx],
-                ...prevState.slice(idx + 1)
-            ]
-        })
+        if (rollsLeft)
+            setLocked((prevState) => {
+                return [
+                    ...prevState.slice(0, idx),
+                    !prevState[idx],
+                    ...prevState.slice(idx + 1)
+                ]
+            })
     };
 
     const doScore = (ruleName, ruleFn) => {
@@ -74,7 +75,7 @@ export default function Game() {
                     <div className='Game-button-wrapper'>
                         <button
                             className='Game-reroll'
-                            disabled={locked.every(x => x)}
+                            disabled={locked.every(x => x) || rollsLeft === 0}
                             onClick={roll}
                         >
                             {rollsLeft} Rerolls Left
