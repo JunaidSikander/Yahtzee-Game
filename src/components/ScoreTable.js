@@ -19,7 +19,12 @@ import {
 export default function ScoreTable(props) {
     const {scores, doScore} = props;
 
-    console.log('SCORES', scores);
+    const getTotalScore = () => {
+        let totalScore = 0;
+
+        for (let key in scores) if (scores[key] !== undefined) totalScore += scores[key];
+        return totalScore;
+    }
 
     return (
         <div className='ScoreTable'>
@@ -115,6 +120,7 @@ export default function ScoreTable(props) {
                     </tbody>
                 </table>
             </section>
+            <h2>TOTAL SCORE: {getTotalScore()}</h2>
         </div>
     )
 }

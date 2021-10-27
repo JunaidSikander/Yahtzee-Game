@@ -31,7 +31,7 @@ export default function Game() {
     //Methods
     const animateRoll = () => setRolling(() => true, setTimeout(roll, 1000));
 
-    useEffect(() => animateRoll());
+    useEffect(() => animateRoll(), []);
 
     const roll = (event) => {
         // roll dice whose indexes are in reroll
@@ -44,7 +44,7 @@ export default function Game() {
 
     const toggleLocked = (idx) => {
         // toggle whether idx is in locked or not
-        if (rollsLeft & !rolling)
+        if (rollsLeft && !rolling)
             setLocked((prevState) => {
                 return [
                     ...prevState.slice(0, idx),
@@ -64,7 +64,12 @@ export default function Game() {
         });
         setRolls(NUM_ROLLS);
         setLocked(Array(NUM_DICE).fill(false))
+        animateRoll();
+    };
 
+    const displayRollInfo = () => {
+        const messages = ['0 Rolls Left', '1 Roll Left', '2 Rolls Left', "Starting Round"];
+        return messages[rollsLeft];
     }
 
     return (
@@ -85,7 +90,7 @@ export default function Game() {
                             disabled={locked.every(x => x) || rollsLeft === 0 || rolling}
                             onClick={animateRoll}
                         >
-                            {rollsLeft} Rerolls Left
+                            {displayRollInfo()}
                         </button>
                     </div>
                 </section>
